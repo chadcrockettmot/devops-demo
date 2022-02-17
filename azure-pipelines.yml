@@ -1,27 +1,33 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
-trigger:
-- main
-
-pool:
-  vmImage: ubuntu-latest
-
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- task: Docker@2
-  inputs:
-    containerRegistry: 'ghcr'
-    repository: 'chadcrockettmot/devops-demo'
-    command: 'buildAndPush'
-    Dockerfile: '**/Dockerfile'
-    tags: 'latest'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+stages:
+  - stage: build
+    displayName: Build
+    pool:
+      name: Azure Pipelines
+    jobs:
+      - job: build
+        steps:
+          - task: Docker@2
+            inputs:
+              containerRegistry: 'ghcr'
+              repository: 'chadcrockettmot/devops-demo'
+              command: 'buildAndPush'
+              Dockerfile: '**/Dockerfile'
+              tags: 'latest'
+  - stage: deploy
+    displayName: Deploy
+    pool:
+     name: OpenShift-Agent
+    jobs:
+      - job: deploy
+        steps:
+          - script: |
+              echo 'Starting OC deploy'
+   
+              oc status
+   
+              oc delete deployment,svc,route --selector app=devops-demo --ignore-not-found
+              oc delete bc devops-demo --ignore-not-found
+              oc new-app ghcr.io/chadcrockettmot/devops-demo:latest --source-secret=github-container-registry
+   
+              oc expose service/devops-demo
+              displayName: 'OpenShift Command Line Script'
