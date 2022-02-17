@@ -30,4 +30,4 @@ stages:
               oc new-app ghcr.io/chadcrockettmot/devops-demo:latest --source-secret=github-container-registry
    
               oc expose service/devops-demo
-              displayName: 'OpenShift Command Line Script'
+            displayName: 'OpenShift Command Line Script'
