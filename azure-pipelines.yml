@@ -13,21 +13,3 @@ stages:
               command: 'buildAndPush'
               Dockerfile: '**/Dockerfile'
               tags: 'latest'
-  - stage: deploy
-    displayName: Deploy
-    pool:
-     name: OpenShift-Agent
-    jobs:
-      - job: deploy
-        steps:
-          - script: |
-              echo 'Starting OC deploy'
-   
-              oc status
-   
-              oc delete deployment,svc,route --selector app=devops-demo --ignore-not-found
-              oc delete bc devops-demo --ignore-not-found
-              oc new-app ghcr.io/chadcrockettmot/devops-demo:latest --source-secret=github-container-registry
-   
-              oc expose service/devops-demo
-            displayName: 'OpenShift Command Line Script'
