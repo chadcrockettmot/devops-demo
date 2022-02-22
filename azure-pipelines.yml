@@ -12,4 +12,4 @@ stages:
               repository: 'chadcrockettmot/devops-demo'
               command: 'buildAndPush'
               Dockerfile: '**/Dockerfile'
-              tags: 'latest'
+              tags: '1.0.$(Build.BuildId)'
