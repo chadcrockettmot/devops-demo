@@ -3,6 +3,8 @@ stages:
     displayName: Build
     pool:
       name: Azure Pipelines
+    variables:
+      dockerTag: 1.0.0
     jobs:
       - job: build
         steps:
@@ -12,4 +14,4 @@ stages:
               repository: 'chadcrockettmot/devops-demo'
               command: 'buildAndPush'
               Dockerfile: '**/Dockerfile'
-              tags: 'latest'
+              tags: '1.0.0'
