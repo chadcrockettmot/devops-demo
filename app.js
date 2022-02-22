@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const path = require('path');
 
+app.use(express.static(__dirname + '/img/'));
+
 // this will accept all the calls to root URL http://localhost:8080/
 // It will render the index.html available in the Project root directory as a Response
 app.get('/', (req,res) => {
