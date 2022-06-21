@@ -1,6 +1,6 @@
 if ( something is true)
 {
- print"false"
+ print"true"
  call method abc
 }
 
