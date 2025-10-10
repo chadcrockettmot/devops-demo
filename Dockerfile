@@ -1,5 +1,5 @@
 # Choose the Image which has Node installed already
-FROM node:alpine
+FROM node:24.10.0-alpine3.22
 
 # COPY all the files from Current Directory into the Container
 COPY ./ ./
